@@ -1,7 +1,7 @@
 import allure
 from pages.base_page import BasePage
 from locators.order_page_locators import OrderPageLocators
-
+from locators.base_page_locators import BasePageLocators
 
 # класс содержит методы страницы заказа и наследует базовые методы
 class OrderPage(BasePage):
@@ -38,4 +38,26 @@ class OrderPage(BasePage):
         self.fill_text_field(OrderPageLocators.field_comment_locator, user["comment"])
         self.click_to_element(OrderPageLocators.button_place_order_locator)
 
+# Соглашаемся на оформление заказа
+    @allure.step('Соглашаемся на оформление заказа')
+    def accept_window_yes(self):
+        self.find_element(OrderPageLocators.button_yes_locator).click()
 
+# Получение статуса заказа
+    @allure.step('Получение статуса заказа')
+    def getting_the_order_status(self):
+        self.find_element(OrderPageLocators.button_view_status_locator).click()
+
+# клик по лого "Самокат"
+    @allure.step('Получение статуса заказа')
+    def click_on_the_yandex_logo(self):
+        self.find_element(BasePageLocators.button_scooter_locator).click()
+
+# клик по лого "Яндекс"
+    @allure.step('Получение статуса заказа')
+    def click_on_the_yandex_logo(self):
+        self.find_element(BasePageLocators.button_yandex_locator).click()
+
+    @allure.step('Проверка оформленного заказа')
+    def check_order(self):
+        return self.get_text_from_element(OrderPageLocators.window_confirmation_order_locator)

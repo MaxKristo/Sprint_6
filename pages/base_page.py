@@ -1,6 +1,4 @@
 import allure
-from locators.base_page_locators import BasePageLocators
-from locators.order_page_locators import OrderPageLocators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from urls import Urls
@@ -11,16 +9,6 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-
-# метод принимает куки, если сообщение о куки появилось
-    @allure.step('Принять куки')
-    def accept_cookie(self):
-        try:                # ожидание кнопки "да все привыкли"
-            cookie_close_button = self.wait.until(expected_conditions.element_to_be_clickable(BasePageLocators.button_accept_cookie_locator))
-            cookie_close_button.click()
-        except:
-            pass            # если кнопка не появилась, то продолжаем тест
-
 
 # поиск элемента
     @allure.step('Поиск элемента')
@@ -63,14 +51,6 @@ class BasePage:
     def click_to_logo_yandex_and_change_to_dzen(self):
         self.driver.switch_to.window(self.driver.window_handles[-1])
         return self.wait.until(expected_conditions.url_contains(Urls.dzen_url))
-
-# принятие куки, клик по кнопке "Заказать" в заголовке
-    @allure.step('Переход в форме заказа при клике кнопки "Заказать" в хедере')
-    @allure.description('Принять куки, клик по кнопке "Заказать" в хедере и подтверждение перехода к форме "Заказать"')
-    def click_order_button_in_header_and_transition_to_order_page(self):
-        self.accept_cookie()
-        self.click_to_element(BasePageLocators. button_order_header_locator)
-        self.find_element(OrderPageLocators.fields_name_locator)
 
 # метод получает текущий url
     @allure.step('Проверка URL')

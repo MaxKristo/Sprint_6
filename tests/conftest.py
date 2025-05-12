@@ -1,10 +1,9 @@
-from urls import Urls
-import pytest
 from selenium import webdriver
+import pytest
+from urls import Urls
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def driver():
-    # Инициализация Firefox WebDriver
     driver = webdriver.Firefox()
     driver.maximize_window()
     driver.get(Urls.base_url)
