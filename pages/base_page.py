@@ -1,7 +1,6 @@
 import allure
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
-from urls import Urls
 
 # класс содержит базовые методы
 class BasePage:
@@ -45,14 +44,16 @@ class BasePage:
         locator_str = locator_str.format(text)
         return by, locator_str
 
-# при клике на логотип Яндекс, в новом окне через редирект откроется главная страница Дзена.
-    @allure.step('Проверить переход при клике на логотип Яндекс в заголовке')
-    @allure.description('При клике на логотип Яндекс, в новом окне через редирект откроется главная страница Дзена.')
-    def click_to_logo_yandex_and_change_to_dzen(self):
+    @allure.step("Дождаться открытия новой вкладки и перейти на нее")
+    def switch_and_get_url(self):
+        self.wait.until(expected_conditions.number_of_windows_to_be(2))
         self.driver.switch_to.window(self.driver.window_handles[-1])
-        return self.wait.until(expected_conditions.url_contains(Urls.dzen_url))
 
-# метод получает текущий url
-    @allure.step('Проверка URL')
-    def check_to_url(self):
-        return self.driver.current_url
+    @allure.step('Проверяем кликабельность кнопки в окне с куками')
+    def windows_cookies(self, locator):
+        return self.wait.until(expected_conditions.element_to_be_clickable(locator))
+
+# метод открывает переданную страницу
+    @allure.step('Открываем переданную страницу')
+    def go_to_url(self, url):
+        self.driver.get(url)

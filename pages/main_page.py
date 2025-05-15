@@ -2,7 +2,6 @@ import allure
 from locators.order_page_locators import OrderPageLocators
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
-from selenium.webdriver.support import expected_conditions
 from locators.base_page_locators import BasePageLocators
 
 # класс содержит методы главной страницы и наследует базовые методы
@@ -35,8 +34,8 @@ class MainPage(BasePage):
 # метод закрытие окна с куками
     @allure.step('Закрытие окна с куками')
     def close_cookies(self):
-        cookie_close_button = self.wait.until(expected_conditions.element_to_be_clickable(BasePageLocators.button_accept_cookie_locator))
-        cookie_close_button.click()
+        self.windows_cookies(BasePageLocators.button_accept_cookie_locator).click()
+
 
 # принятие куки, клик по кнопке "Заказать" в заголовке
     @allure.step('Переход в форме заказа при клике кнопки "Заказать" в хедере')
@@ -45,3 +44,13 @@ class MainPage(BasePage):
         self.close_cookies()
         self.click_to_element(BasePageLocators.button_order_header_locator)
         self.find_element(OrderPageLocators.fields_name_locator)
+
+# метод получает текущий url
+    @allure.step('Проверка URL')
+    def check_to_url(self):
+        return self.driver.current_url
+
+    @allure.step('Проверяем переход на страницу Дзен')
+    def switch_to_dzen_page(self):
+        self.switch_and_get_url()
+        return self.find_element(MainPageLocators.check_yandex_dzen)

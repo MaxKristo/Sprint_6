@@ -49,12 +49,12 @@ class OrderPage(BasePage):
         self.find_element(OrderPageLocators.button_view_status_locator).click()
 
 # клик по лого "Самокат"
-    @allure.step('Получение статуса заказа')
-    def click_on_the_yandex_logo(self):
+    @allure.step('клик по лого "Самокат"')
+    def click_on_the_scooter_logo(self):
         self.find_element(BasePageLocators.button_scooter_locator).click()
 
 # клик по лого "Яндекс"
-    @allure.step('Получение статуса заказа')
+    @allure.step('клик по лого "Яндекс"')
     def click_on_the_yandex_logo(self):
         self.find_element(BasePageLocators.button_yandex_locator).click()
 
